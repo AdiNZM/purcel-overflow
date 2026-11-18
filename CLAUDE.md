@@ -3,10 +3,12 @@
 Joc tower-defense în browser: porci roz invadează biroul unui programator. Proiectul lui Cosmin, făcut împreună cu Claude.
 Live: https://cosminflrn.github.io/purcel-overflow/ (GitHub Pages, din `main`).
 
+E context, nu regulament: dacă vezi o cale mai bună, folosește-o și actualizează nota.
+
 ## Cum lucrăm
 - Cosmin scrie în română; răspunde în română, scurt. Vrea „rapid și eficient” și sugestii proactive.
 - E foarte atent la design: fără texte tăiate, suprapuneri, elemente care ies din chenar. Verifică totul cu capturi înainte de push.
-- La fiecare versiune: crește `VERSION` în `index.html`, adaugă un rând în tabelul din `README.md`, refă capturile dacă s-a schimbat ceva vizibil (`node tools/capturi-readme.js`), commit, push pe `main` și pe ramura `versiune-vX.Y` (ramuri, nu tag-uri).
+- La fiecare versiune: crește `VERSION` în `index.html`, adaugă un rând în tabelul din `README.md`, refă capturile dacă s-a schimbat ceva vizibil (`node tools/capturi-readme.js`), commit și push pe `main` (singura ramură; istoricul versiunilor e tabelul din README).
 - Autor la commit: Cosmin Florian; commit-urile se termină cu linia de co-autor Claude.
 
 ## Structură
