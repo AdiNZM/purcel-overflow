@@ -24,7 +24,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # enablement: true — încearcă să activeze Pages (Source = GitHub Actions) dacă încă nu e setat
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - name: Stage site files
         run: |
           mkdir -p _site
