@@ -29,7 +29,7 @@ canvas{position:fixed;left:0;top:0;display:block;touch-action:none}
 // =====================================================================
 //  PURCEL OVERFLOW — tower defense cu porci, un programator și Claude
 // =====================================================================
-const VERSION = 'v11.3';
+const VERSION = 'v11.4';
 const cv = document.getElementById('c'), ctx = cv.getContext('2d');
 const TS = 50, COLS = 20, ROWS = 12, MY = 60, MW = 1000, MH = 600, PW = 280;
 const FB = '"Nunito","Segoe UI",system-ui,sans-serif', FM = 'Consolas,"Courier New",monospace';
@@ -616,6 +616,8 @@ function rg(x, y, r0, r1, stops) { const g = ctx.createRadialGradient(x, y, r0, 
 
 // =================================================================== INPUT
 let BTN = [], mouse = { x: -1, y: -1, down: false }, dragFn = null;
+// scroll pentru textul lung din terminalul lui Claude (cu 7+ capcane panoul e mai scurt)
+let promptScroll = 0, promptScrollMax = 0, promptScrollKey = null, promptHit = null, promptDragY = null;
 function toLocal() { const m = ctx.getTransform(), X = mouse.x * K, Y = mouse.y * K; return { x: (X - m.e) / m.a, y: (Y - m.f) / m.d }; }
 let hoverBlock = false;
 const hov = (x, y, w, h) => { if (hoverBlock) return false; const p = toLocal(); return p.x >= x && p.x < x + w && p.y >= y && p.y < y + h; };
@@ -658,9 +660,16 @@ cv.addEventListener('pointerdown', e => {
 });
 function setMouse(e) { mouse.x = (e.clientX - CV.l) / CV.w * W; mouse.y = (e.clientY - CV.t) / CV.h * H; }
 cv.addEventListener('pointermove', e => { setMouse(e); if (dragFn && mouse.down) dragFn(); });
-addEventListener('pointerup', () => { mouse.down = false; dragFn = null; });
+addEventListener('pointerup', () => { mouse.down = false; dragFn = null; promptDragY = null; });
 cv.addEventListener('pointerleave', () => { if (!mouse.down) mouse.x = mouse.y = -1; });
 cv.addEventListener('contextmenu', e => e.preventDefault());
+cv.addEventListener('wheel', e => {
+  if (!promptHit || promptScrollMax <= 0 || scr !== 'play') return;
+  const p = { x: (e.clientX - CV.l) / CV.w * W, y: (e.clientY - CV.t) / CV.h * H };
+  if (p.x < promptHit.x || p.x >= promptHit.x + promptHit.w || p.y < promptHit.y || p.y >= promptHit.y + promptHit.h) return;
+  e.preventDefault();
+  promptScroll = clamp(promptScroll + e.deltaY * 0.45, 0, promptScrollMax);
+}, { passive: false });
 addEventListener('keydown', e => { audioInit(); if (scr === 'splash') { scr = 'menu'; return; }
   // scurtături pe desktop: Esc / P = pauză, Space = pornește runda, F = viteză 2x
   if (scr !== 'play' || !G || tut || unlockPop || e.repeat) return;
@@ -1724,12 +1733,15 @@ function mapClick() {
   if (t) { selTower = selTower === t.id ? null : t.id; sfx('click'); } else selTower = null;
 }
 function panelLayout() {
-  const atkRows = Math.ceil(ATK.length / 2), atkY0 = 52, rowH = 64;
-  const helpY = atkY0 + atkRows * rowH + 12, helpCardY = helpY + 8, topEnd = helpCardY + 58 + 14;
-  return { atkY0, rowH, helpY, helpCardY, topEnd };
+  // cu 7+ capcane de atac (4 rânduri), strângem puțin ca terminalul lui Claude să rămână citibil
+  const atkRows = Math.ceil(ATK.length / 2), tight = atkRows >= 4;
+  const atkY0 = tight ? 46 : 52, rowH = tight ? 56 : 64, cardH = tight ? 50 : 58;
+  const helpY = atkY0 + atkRows * rowH + (tight ? 8 : 12), helpCardY = helpY + (tight ? 6 : 8);
+  const topEnd = helpCardY + cardH + (tight ? 8 : 14);
+  return { atkY0, rowH, helpY, helpCardY, topEnd, cardH, tight };
 }
 function drawShopInfo(g) {
-  const lay = panelLayout(), T = TOWERS[selShop], w = 280, x = PX - w - 10, i = ATK.indexOf(selShop), y0 = i >= 0 ? 58 + Math.floor(i / 2) * lay.rowH : lay.helpCardY;
+  const lay = panelLayout(), T = TOWERS[selShop], w = 280, x = PX - w - 10, i = ATK.indexOf(selShop), y0 = i >= 0 ? lay.atkY0 + 6 + Math.floor(i / 2) * lay.rowH : lay.helpCardY;
   const lines = wrap(T.desc, w - 28, 14), h = 76 + lines.length * 19, y = clamp(y0, MY + 6, H - h - 10);
   ctx.fillStyle = 'rgba(0,0,0,.45)'; rr(x + 3, y + 5, w, h, 14); ctx.fill();
   ctx.fillStyle = lg(0, y, 0, y + h, ['#2f3a52', '#1f2638']); rr(x, y, w, h, 14); ctx.fill(); ctx.strokeStyle = '#9cc7ff'; ctx.lineWidth = 2; ctx.stroke();
@@ -1820,9 +1832,9 @@ function drawPanel(g) {
   else {
     text('Capcane', PX + 14, 18, 19, '#fff', 'left', '900');
     text('DE ATAC', PX + 14, 44, 11, '#ff9f8a', 'left', '900'); text('lovesc și doboară porcii', PX + 266, 44, 11, '#8f97a8', 'right', '700');
-    ATK.forEach((k, i) => trapCard(g, k, PX + 8 + (i % 2) * 134, lay.atkY0 + Math.floor(i / 2) * lay.rowH, 128, 58));
+    ATK.forEach((k, i) => trapCard(g, k, PX + 8 + (i % 2) * 134, lay.atkY0 + Math.floor(i / 2) * lay.rowH, 128, lay.cardH));
     text('DE AJUTOR', PX + 14, lay.helpY, 11, '#8fd6ff', 'left', '900'); text('încetinesc porcii, ajută capcanele', PX + 266, lay.helpY, 11, '#8f97a8', 'right', '700');
-    HELP.forEach((k, i) => trapCard(g, k, PX + 8 + i * 134, lay.helpCardY, 128, 58));
+    HELP.forEach((k, i) => trapCard(g, k, PX + 8 + i * 134, lay.helpCardY, 128, lay.cardH));
   }
   // Claude
   const cy = topEnd, cx = PX + 8, cw = 264, ch = H - 128 - cy, an = g.canim;
@@ -1838,32 +1850,55 @@ function drawPanel(g) {
   drawClaudeLogo(cx + 22, cy + 22, 11 * lsc, lcol, rot);
   text('Claude Code', cx + 40, cy + 22, 17, '#f0d8cc', 'left', '900');
   text(g.req ? 'te așteaptă' : g.state === 'wave' && !paused ? 'lucrează' : 'în pauză', cx + cw - 12, cy + 23, 12, g.req ? '#ffb38a' : '#8f857f', 'right', '800');
-  const btnH = 52, btnY = cy + ch - btnH - 12, termY = cy + 42, termH = Math.max(40, btnY - 30 - termY - 18);
+  const btnH = 48, btnY = cy + ch - btnH - 10, termY = cy + 40, termH = Math.max(36, btnY - 26 - termY - 14);
+  promptHit = null; promptScrollMax = 0;
   if (an && !g.req) {
     const a = Math.min(1, an.t * 4), col = an.type === 'good' ? '#7ef0a0' : an.type === 'bad' ? '#ff7a6b' : '#b8bcc6';
     ctx.globalAlpha = a;
     const head = an.type === 'good' ? 'Excelent!' : an.type === 'bad' ? 'DEZASTRU!' : 'Hmm...';
     const pop = an.type === 'bad' ? 1 + 0.25 * Math.max(0, 1 - an.t * 3) : 1 + 0.15 * Math.max(0, Math.sin(an.t * 10) * (1 - an.t));
-    ctx.save(); ctx.translate(cx + cw / 2, cy + 68); ctx.scale(pop, pop); textS(head, 0, 0, 28, col, 'center', '900'); ctx.restore();
-    wrap('„' + an.line + '”', cw - 30, 15, '700').slice(0, Math.max(2, Math.floor((btnY - cy - 100) / 20))).forEach((l, i) => text(l, cx + cw / 2, cy + 104 + i * 20, 15, '#eadfd8', 'center', '700'));
-    ctx.fillStyle = an.type === 'good' ? 'rgba(94,224,122,.15)' : an.type === 'bad' ? 'rgba(255,77,77,.15)' : 'rgba(150,150,160,.15)'; rr(cx + 12, btnY + 8, cw - 24, 38, 10); ctx.fill();
-    fitText(an.sub, cx + cw / 2, btnY + 27, cw - 40, 14, col, 'center', '900');
+    const headSz = ch < 200 ? 22 : 28, lineSz = ch < 200 ? 13 : 15, lineGap = lineSz + 4;
+    ctx.save(); ctx.translate(cx + cw / 2, cy + 62); ctx.scale(pop, pop); textS(head, 0, 0, headSz, col, 'center', '900'); ctx.restore();
+    wrap('„' + an.line + '”', cw - 30, lineSz, '700').slice(0, Math.max(2, Math.floor((btnY - cy - 90) / lineGap))).forEach((l, i) => text(l, cx + cw / 2, cy + 92 + i * lineGap, lineSz, '#eadfd8', 'center', '700'));
+    ctx.fillStyle = an.type === 'good' ? 'rgba(94,224,122,.15)' : an.type === 'bad' ? 'rgba(255,77,77,.15)' : 'rgba(150,150,160,.15)'; rr(cx + 12, btnY + 6, cw - 24, 36, 10); ctx.fill();
+    fitText(an.sub, cx + cw / 2, btnY + 24, cw - 40, 13, col, 'center', '900');
     ctx.globalAlpha = 1;
   } else {
-    text(g.req ? 'Claude vrea să ruleze:' : 'Terminal', cx + 14, termY + 6, 13, '#c9b9b0', 'left', '800');
-    ctx.fillStyle = '#0d0e11'; rr(cx + 12, termY + 18, cw - 24, termH, 8); ctx.fill();
+    text(g.req ? 'Claude vrea să ruleze:' : 'Terminal', cx + 14, termY + 5, 12, '#c9b9b0', 'left', '800');
+    ctx.fillStyle = '#0d0e11'; rr(cx + 12, termY + 16, cw - 24, termH, 8); ctx.fill();
     if (g.req) {
       const q = g.req, cmd = (q.bad ? BAD : GOOD)[q.i][0];
-      text('$', cx + 22, termY + 34, 14, '#d97757', 'left', '700', FM);
-      wrap(cmd, cw - 58, 14, '700', FM).slice(0, Math.floor((termH - 8) / 19)).forEach((l, i) => text(l, cx + 36, termY + 34 + i * 19, 14, '#8ff0a4', 'left', '700', FM));
-      bar(cx + 12, btnY - 18, cw - 24, 7, 1 - q.t / q.max, q.t / q.max > 0.7 ? '#ff5c5c' : '#d97757');
-      button(cx + 12, btnY, 116, btnH, 'Aprobă', () => answer(G, true), { color: '#2fa865', size: 20 });
-      button(cx + cw - 128, btnY, 116, btnH, 'Refuză', () => answer(G, false), { color: '#c0443b', size: 20 });
+      const fontSz = termH < 70 ? 11 : 12, lineH = fontSz + 3, tx = cx + 12, ty = termY + 16, tw = cw - 24;
+      const lines = wrap(cmd, tw - 34, fontSz, '700', FM), key = (q.bad ? 'b' : 'g') + q.i;
+      if (promptScrollKey !== key) { promptScroll = 0; promptScrollKey = key; }
+      promptScrollMax = Math.max(0, lines.length * lineH - (termH - 14));
+      promptScroll = clamp(promptScroll, 0, promptScrollMax);
+      promptHit = { x: tx, y: ty, w: tw, h: termH };
+      ctx.save(); rr(tx, ty, tw, termH, 8); ctx.clip();
+      text('$', cx + 20, ty + 12 - promptScroll, fontSz, '#d97757', 'left', '700', FM);
+      lines.forEach((l, i) => text(l, cx + 34, ty + 12 + i * lineH - promptScroll, fontSz, '#8ff0a4', 'left', '700', FM));
+      ctx.restore();
+      if (promptScrollMax > 0) {
+        const trackH = termH - 10, thumbH = Math.max(14, trackH * (termH - 14) / (lines.length * lineH));
+        const thumbY = ty + 5 + (trackH - thumbH) * (promptScroll / promptScrollMax);
+        ctx.fillStyle = 'rgba(255,255,255,.12)'; rr(tx + tw - 7, ty + 5, 3, trackH, 2); ctx.fill();
+        ctx.fillStyle = 'rgba(217,119,87,.7)'; rr(tx + tw - 7, thumbY, 3, thumbH, 2); ctx.fill();
+        region(tx, ty, tw, termH, () => { promptDragY = mouse.y; }, () => {
+          if (promptDragY == null) promptDragY = mouse.y;
+          promptScroll = clamp(promptScroll - (mouse.y - promptDragY), 0, promptScrollMax);
+          promptDragY = mouse.y;
+        });
+      }
+      bar(cx + 12, btnY - 16, cw - 24, 6, 1 - q.t / q.max, q.t / q.max > 0.7 ? '#ff5c5c' : '#d97757');
+      button(cx + 12, btnY, 116, btnH, 'Aprobă', () => answer(G, true), { color: '#2fa865', size: 18 });
+      button(cx + cw - 128, btnY, 116, btnH, 'Refuză', () => answer(G, false), { color: '#c0443b', size: 18 });
     } else {
-      const working = true, n = Math.max(1, Math.floor((termH - 16) / 16));
-      for (let i = 0; i < n; i++) { const w = working ? 30 + Math.abs(Math.sin(i * 1.7 + Math.floor(RT * (g.state === 'wave' ? 4 : 1.6)) * 0.8)) * 150 : 40 + ((i * 37) % 110); ctx.fillStyle = ['#8ff0a4', '#7fb3ff', '#d97757', '#c9a0ff'][i % 4]; ctx.globalAlpha = working ? 0.75 : 0.3; rr(cx + 24 + (i % 3 === 1 ? 14 : 0), termY + 30 + i * 16, Math.min(w, cw - 60), 6, 3); ctx.fill(); }
+      const working = true, n = Math.max(1, Math.floor((termH - 14) / 14));
+      for (let i = 0; i < n; i++) { const w = working ? 30 + Math.abs(Math.sin(i * 1.7 + Math.floor(RT * (g.state === 'wave' ? 4 : 1.6)) * 0.8)) * 150 : 40 + ((i * 37) % 110); ctx.fillStyle = ['#8ff0a4', '#7fb3ff', '#d97757', '#c9a0ff'][i % 4]; ctx.globalAlpha = working ? 0.75 : 0.3; rr(cx + 24 + (i % 3 === 1 ? 14 : 0), termY + 28 + i * 14, Math.min(w, cw - 60), 5, 3); ctx.fill(); }
       ctx.globalAlpha = 1;
-      wrap('Când Claude cere aprobare, aprobă comenzile utile și refuză-le pe cele periculoase. Răspunsurile corecte scad bullshit-ul.', cw - 28, 12.5, '700').slice(0, 4).forEach((l, i) => text(l, cx + 14, btnY - 6 + i * 16, 12.5, '#a89a93', 'left', '700'));
+      const tipSz = 11.5, tipGap = 14, tipLines = wrap('Când Claude cere aprobare, aprobă comenzile utile și refuză-le pe cele periculoase. Răspunsurile corecte scad bullshit-ul.', cw - 28, tipSz, '700');
+      const tipMax = Math.max(1, Math.min(4, Math.floor((cy + ch - 10 - btnY) / tipGap)));
+      tipLines.slice(0, tipMax).forEach((l, i) => text(l, cx + 14, btnY + 4 + i * tipGap, tipSz, '#a89a93', 'left', '700'));
     }
   }
   ctx.restore();
