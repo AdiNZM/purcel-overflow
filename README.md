@@ -5,7 +5,7 @@
 **Un tower defense în browser în care porci roz invadează biroul unui programator.**
 Pune capcane lângă hol, ține bullshit-ul jos și ai grijă ce aprobi când Claude vrea să ruleze comenzi.
 
-### [▶ Joacă acum](https://cosminflrn.github.io/purcel-overflow/)
+### [▶ Joacă acum](https://adinzm.github.io/purcel-overflow/)
 
 ![Purcel Overflow, meniul principal](screenshots/meniu.png)
 
@@ -21,16 +21,16 @@ Pune capcane lângă hol, ține bullshit-ul jos și ai grijă ce aprobi când Cl
 
 ## Ce găsești în joc
 
-- 🏢 **6 nivele**, fiecare cu harta lui: Open Space, Sala de ședințe, Camera serverelor (cu lifturi), Bucătăria (cu podea udă), Team building (cu tiroliană și ring de dans) și Biroul CEO-ului
-- 🪤 **8 capcane** cu câte 2 upgrade-uri:
-  - de atac: Capsator, Imprimantă, Săpător (un coleg musculos care sapă gropi pe hol), Firewall, Feliator, Aspirator
+- 🏢 **7 nivele**, fiecare cu harta lui: Open Space, Sala de ședințe, Camera serverelor (cu lifturi), Bucătăria (cu podea udă), Team building (cu tiroliană și ring de dans), Biroul CEO-ului și Gara de metrou (peroane, Dușul, Porcul Cosmin)
+- 🪤 **9 capcane** cu câte 2 upgrade-uri:
+  - de atac: Capsator, Imprimantă, Săpător (un coleg musculos care sapă gropi pe hol), Firewall, Feliator, Aspirator, Duș (topeste Porcul Cosmin)
   - de ajutor: Balonașe (îi prind în bule de săpun) și Espressor (face capcanele din jur mai rapide și mai puternice)
 - ⏱️ **Contra cronometru**: ai timp limitat între runde, iar dacă pornești runda mai repede primești bonus de viteză
 - 📊 **Statistici la final de nivel**: porci opriți, lei câștigați, răspunsuri corecte la Claude, timp și capcana vedetă. La game over, Claude îți dă și un sfat în funcție de ce a mers prost
 - ⏩ **Viteză 2x** pentru rundele în care apărarea ține, plus „Reia runda” și „Reia nivelul” din pauză
 - ⌨️ **Scurtături pe desktop**: Esc sau P pentru pauză, Space pornește runda, F comută viteza 2x
 - ⏸️ **Pauză automată** când schimbi tabul; muzica merge mai departe și la pauză (o oprești din butonul de sunet)
-- 🐖 **10 tipuri de porci**, de la Porcul de birou până la Porcul Rege, care face pământul să tremure
+- 🐖 **11 tipuri de porci**, de la Porcul de birou până la Porcul Cosmin (armură grea, slab la duș) și Porcul Rege, care face pământul să tremure
 - 💥 **Fiecare capcană are animația ei** când doboară un porc. Uneori sare și câte o friptură
 - 🤖 **Claude Code** cere aprobare pentru aproape 180 de comenzi amuzante, care nu se repetă până nu le vezi pe toate. Aprobi ce e util, refuzi prostiile, iar bara de bullshit îți spune cum te descurci
 - 🎵 **Muzică și sunete** diferite pe fiecare nivel, generate în întregime din cod
@@ -57,7 +57,8 @@ Versiunea curentă apare în colțul din dreapta-jos al meniului. Fiecare versiu
 
 | Versiune | Ce a adus |
 |---|---|
-| **v11.2** | „Săpătorul” devine „Săpător”, sunet mai blând la săpat și la căderea în groapă, Săpătorul încape în pătrățelul lui, gropile nu mai apar dincolo de lifturi, rebalansare verificată |
+| **v11.3** | Nivelul 7 „Gara de metrou”: temă de peron, Porcul Cosmin (armură + slab la Duș), capcana Duș, programatori pe telefon, Rege mai gălăgios, cutremur și bullshit mai mari; unlock-ul se salvează din nou în localStorage; GitHub Pages pe https://adinzm.github.io/purcel-overflow/ |
+| v11.2 | „Săpătorul” devine „Săpător”, sunet mai blând la săpat și la căderea în groapă, Săpătorul încape în pătrățelul lui, gropile nu mai apar dincolo de lifturi, rebalansare verificată |
 | v11.1 | Rebalansare: Săpătorul mai rapid și mai puternic, Imprimanta mai slabă, Aspiratorul vânează porcii; aproape 100 de comenzi Claude noi, care nu se mai repetă nici după reload; mai mult timp să-i răspunzi lui Claude (12 secunde) |
 | v11.0 | Săpătorul în loc de Ventilator, drumul vine de la marginea ecranului și intră sub biroul programatorului, fundal complet pe ecrane foarte late, butoane cu culori vii, confirmare în doi pași la „Reia runda” / „Reia nivelul”, ultimul nivel apare „Gata”, muzica merge și la pauză, buton de fullscreen mereu vizibil cu explicație pe iPhone |
 | v10.2 | Reparații: la 2x, Claude, mesajele și statistica de timp merg în timp real; „Reia runda” îți dă din nou timp de pregătire; scurtături pe desktop (Esc/P pauză, Space pornește runda, F viteză 2x); bot de test mai corect |

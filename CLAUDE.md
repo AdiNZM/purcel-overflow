@@ -1,7 +1,7 @@
 # Purcel Overflow — note pentru Claude
 
 Joc tower-defense în browser: porci roz invadează biroul unui programator. Proiectul lui Cosmin, făcut împreună cu Claude.
-Live: https://cosminflrn.github.io/purcel-overflow/ (GitHub Pages, din `main`).
+Live (fork AdiNZM): https://adinzm.github.io/purcel-overflow/ (GitHub Pages, din `main` / root). Upstream Cosmin: https://cosminflrn.github.io/purcel-overflow/.
 
 E context, nu regulament: dacă vezi o cale mai bună, folosește-o și actualizează nota.
 
@@ -18,7 +18,7 @@ E context, nu regulament: dacă vezi o cale mai bună, folosește-o și actualiz
 - `tools/`: scripturi de test cu Playwright (rulează cu `node tools/<script>.js`):
   - `balans.js`: simulează fiecare nivel cu bot „deștept” și „naiv” (cine câștigă, cât bullshit rămâne).
   - `capcane.js`: puterea fiecărei capcane folosite singure + daune pe leu investit.
-  - `parcurgere.js`: joacă toate cele 6 nivele cap-coadă în browser și prinde erori.
+  - `parcurgere.js`: joacă toate nivelele cap-coadă în browser și prinde erori.
   - `fuzz.js`: mii de click-uri la întâmplare pe desktop, telefon și tabletă.
   - `capturi-readme.js`: refă capturile din `screenshots/`.
 

@@ -1,6 +1,6 @@
 const { chromium } = require('playwright');
 const S=require('path').resolve(__dirname, '../screenshots') + '/';
-(async()=>{const b=await chromium.launch(); const e=[]; const p=await b.newPage({viewport:{width:1280,height:720}}); p.on('pageerror',x=>e.push(x.message)); await p.goto('file://' + require('path').resolve(__dirname, '../index.html')); await p.evaluate(()=>{for(const k of Object.keys(localStorage)) if(k.startsWith('po_unlocked')) {} ; localStorage.setItem('po_unlocked4','6'); localStorage.setItem('po_done4','[0,1,2]');}); await p.reload(); await p.waitForTimeout(1500); await p.mouse.click(10,10);
+(async()=>{const b=await chromium.launch(); const e=[]; const p=await b.newPage({viewport:{width:1280,height:720}}); p.on('pageerror',x=>e.push(x.message)); await p.goto('file://' + require('path').resolve(__dirname, '../index.html')); await p.evaluate(()=>{for(const k of Object.keys(localStorage)) if(k.startsWith('po_unlocked')) {} ; localStorage.setItem('po_unlocked4', String(__po.LD.length)); localStorage.setItem('po_done4','[0,1,2]');}); await p.reload(); await p.waitForTimeout(1500); await p.mouse.click(10,10);
 await p.waitForTimeout(1500); await p.screenshot({path:S+'meniu.png'});
 await p.evaluate(()=>{__po.scr='levels'}); await p.waitForTimeout(500); await p.screenshot({path:S+'nivele.png'});
 await p.evaluate(()=>__po.startLevel(0)); await p.waitForTimeout(600); await p.evaluate(()=>{__po.tut.i=2}); await p.waitForTimeout(900); await p.screenshot({path:S+'tutorial.png'});
