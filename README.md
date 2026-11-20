@@ -57,7 +57,8 @@ Versiunea curentă apare în colțul din dreapta-jos al meniului. Fiecare versiu
 
 | Versiune | Ce a adus |
 |---|---|
-| **v11.3** | Nivelul 7 „Gara de metrou”: temă de peron, Porcul Cosmin (armură + slab la Duș), capcana Duș, programatori pe telefon, Rege mai gălăgios, cutremur și bullshit mai mari; unlock-ul se salvează din nou în localStorage; GitHub Pages pe https://adinzm.github.io/purcel-overflow/ |
+| **v11.4** | Textul din promptul lui Claude încape din nou după nivelul 7: panou mai strâns la 7+ capcane, font mai mic și scroll pe rotație/trage în terminal |
+| v11.3 | Nivelul 7 „Gara de metrou”: temă de peron, Porcul Cosmin (armură + slab la Duș), capcana Duș, programatori pe telefon, Rege mai gălăgios, cutremur și bullshit mai mari; unlock-ul se salvează din nou în localStorage; GitHub Pages pe https://adinzm.github.io/purcel-overflow/ |
 | v11.2 | „Săpătorul” devine „Săpător”, sunet mai blând la săpat și la căderea în groapă, Săpătorul încape în pătrățelul lui, gropile nu mai apar dincolo de lifturi, rebalansare verificată |
 | v11.1 | Rebalansare: Săpătorul mai rapid și mai puternic, Imprimanta mai slabă, Aspiratorul vânează porcii; aproape 100 de comenzi Claude noi, care nu se mai repetă nici după reload; mai mult timp să-i răspunzi lui Claude (12 secunde) |
 | v11.0 | Săpătorul în loc de Ventilator, drumul vine de la marginea ecranului și intră sub biroul programatorului, fundal complet pe ecrane foarte late, butoane cu culori vii, confirmare în doi pași la „Reia runda” / „Reia nivelul”, ultimul nivel apare „Gata”, muzica merge și la pauză, buton de fullscreen mereu vizibil cu explicație pe iPhone |
