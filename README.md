@@ -21,9 +21,9 @@ Pune capcane lângă hol, ține bullshit-ul jos și ai grijă ce aprobi când Cl
 
 ## Ce găsești în joc
 
-- 🏢 **7 nivele**, fiecare cu harta lui: Open Space, Sala de ședințe, Camera serverelor (cu lifturi), Bucătăria (cu podea udă), Team building (cu tiroliană și ring de dans), Biroul CEO-ului și Gara de metrou (peroane, Dușul, Porcul Cosmin)
+- 🏢 **7 nivele**, fiecare cu harta lui: Open Space, Sala de ședințe, Camera serverelor (cu lifturi), Bucătăria (cu podea udă), Team building (cu tiroliană și ring de dans), Biroul CEO-ului și Gara de metrou (șine, peroane, Dușul, Porcul Cosmin)
 - 🪤 **9 capcane** cu câte 2 upgrade-uri:
-  - de atac: Capsator, Imprimantă, Săpător (un coleg musculos care sapă gropi pe hol), Firewall, Feliator, Aspirator, Duș (topeste Porcul Cosmin)
+  - de atac: Capsator, Imprimantă, Șarpe (verde, scuipă fakeness pe hol), Firewall, Feliator, Aspirator, Duș (topeste Porcul Cosmin)
   - de ajutor: Balonașe (îi prind în bule de săpun) și Espressor (face capcanele din jur mai rapide și mai puternice)
 - ⏱️ **Contra cronometru**: ai timp limitat între runde, iar dacă pornești runda mai repede primești bonus de viteză
 - 📊 **Statistici la final de nivel**: porci opriți, lei câștigați, răspunsuri corecte la Claude, timp și capcana vedetă. La game over, Claude îți dă și un sfat în funcție de ce a mers prost
@@ -57,7 +57,8 @@ Versiunea curentă apare în colțul din dreapta-jos al meniului. Fiecare versiu
 
 | Versiune | Ce a adus |
 |---|---|
-| **v11.5** | În lista de nivele, titlurile și textul roz cu numărul de runde nu se mai suprapun |
+| **v11.6** | Pe Gara de metrou drumurile arată ca șine; Săpătorul e acum Șarpe verde care scuipă fakeness; pe tricoul programatorului scrie Cristos; Porcul Cosmin are ecuson clar |
+| v11.5 | În lista de nivele, titlurile și textul roz cu numărul de runde nu se mai suprapun |
 | v11.4 | Textul din promptul lui Claude încape din nou după nivelul 7: panou mai strâns la 7+ capcane, font mai mic și scroll pe rotație/trage în terminal |
 | v11.3 | Nivelul 7 „Gara de metrou”: temă de peron, Porcul Cosmin (armură + slab la Duș), capcana Duș, programatori pe telefon, Rege mai gălăgios, cutremur și bullshit mai mari; unlock-ul se salvează din nou în localStorage; GitHub Pages pe https://adinzm.github.io/purcel-overflow/ |
 | v11.2 | „Săpătorul” devine „Săpător”, sunet mai blând la săpat și la căderea în groapă, Săpătorul încape în pătrățelul lui, gropile nu mai apar dincolo de lifturi, rebalansare verificată |
